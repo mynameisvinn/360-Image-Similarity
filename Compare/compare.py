@@ -1,36 +1,33 @@
 import numpy as np
 import scipy.ndimage
 
-def compute_ssim(im1, im2, l):
-    '''
-    returns ssim score between im1 and im2. 
+def compare_ssim(im1, im2, l):
+    """Compares two images using structural similarity image measurement.
 
-    see readme for equation.
+    Parameters
+    ----------
+    im1 : npy
+        Refers to image array.
+    im2 : npy
+        Refers to image array.
 
-    params:
-    -------
-    @im1: numpy matrix, represents reference image
-    @im2: numpy matrix, represents target image
-    @l: int, represents width of target image
-
-    returns:
-    --------
-    @ssim: float, reprsents ssim score between -1 to 1, where 1 is perfect similarity
-    '''
-    # k1,k2 & c1,c2 depend on L (width of color map)
+    Return
+    ------
+    ssim : float
+        Represents similarity score between -1 to 1. 1 indicates identical images.
+    """
+    window_shape = 8  # define window for gaussian filtering
+    
+    l = im2.shape[1]  # k1,k2 & c1,c2 depend on L (width of color map)
     k_1 = 0.01
     c_1 = (k_1*l)**2
     k_2 = 0.03
     c_2 = (k_2*l)**2
+    window = np.ones((window_shape, window_shape))  
 
-    # define window for gaussian filtering
-    window = np.ones((8, 8))
+    # window = _gauss_2d((11, 11), 1.5)
+    window /= np.sum(window)  # normalization
 
-    # window = gauss_2d((11, 11), 1.5)
-    # Normalization
-    window /= np.sum(window)
-
-    # TODO: should we convert to double precision?
     im1 = im1.astype(np.float)
     im2 = im2.astype(np.float)
 
@@ -82,7 +79,7 @@ def compute_ssim(im1, im2, l):
     return index
 
 
-def gauss_2d(shape=(3, 3), sigma=0.5):
+def _gauss_2d(shape=(3, 3), sigma=0.5):
     m, n = [(ss-1.)/2. for ss in shape]
     y, x = np.ogrid[-m:m+1, -n:n+1]
     h = np.exp(-(x*x + y*y) / (2.*sigma*sigma))

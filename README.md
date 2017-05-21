@@ -1,9 +1,8 @@
 ## what is this?
-a tool to compare image similarities for 360 photos. built for vrb.
+a tool to compare similarity between 360 photos. could be used to minimize de-dups.
 
-
-## algorithm
-this utility implements the following equation, as developed by wang et al in 2013:
+## how does it work?
+implements wang's 2013 ssim :
 
 <img src="http://file.scirp.org/Html/3-7800146/c060a765-b050-4f10-bc65-5e89c4ea228f.jpg" width="300">
 
